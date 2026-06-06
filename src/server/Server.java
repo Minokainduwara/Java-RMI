@@ -1,6 +1,9 @@
 package server;
 
+import java.rmi.AlreadyBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class Server {
@@ -18,7 +21,21 @@ public class Server {
             Product stub2 = (Product) UnicastRemoteObject.exportObject(p2, 0);
             Product stub3 = (Product) UnicastRemoteObject.exportObject(p3, 0);
             Product stub4 = (Product) UnicastRemoteObject.exportObject(p4, 0);
+
+            // Register the exported class in RMI registry with some name.
+
+            // Client will use that name to get the reference of those exported object
+
+            //Get the registry to register the object
+            Registry registry = LocateRegistry.getRegistry("127.0.0.1", 1099);
+            registry.bind("Product1", stub1);
+            registry.bind("Product2", stub2);
+            registry.bind("Product3", stub3);
+            registry.bind("Product4", stub4);
+
         } catch (RemoteException e) {
+            throw new RuntimeException(e);
+        } catch (AlreadyBoundException e) {
             throw new RuntimeException(e);
         }
     }
