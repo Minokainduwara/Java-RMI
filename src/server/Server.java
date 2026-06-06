@@ -10,6 +10,9 @@ public class Server {
     public static void main(String[] args) {
         try {
 
+            // Set hostname for the server using javaProperty
+            System.setProperty("java.rmi.server.hostname", "127.0.0.1");
+
             //Create Product Object
             ProductImpl p1 = new ProductImpl("Product 1", "Description of Product 1", 10.99);
             ProductImpl p2 = new ProductImpl("Product 2", "Description of Product 2", 10.99);
